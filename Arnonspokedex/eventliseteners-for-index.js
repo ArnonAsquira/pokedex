@@ -1,31 +1,27 @@
 import * as global from './global-variables-for-inedx';
 //event listeners functions
+
 export async function searchPokemon(e) {
-    let identifier;
-    if(e.target.tagName === 'BUTTON'){
-        identifier = e.target.previousElementSibling.value;
-    }else if(e.target.tagName === 'SELECT'){
-            identifier =  e.target.value;
-    }
+    let identifier = identify(e.target, 'BUTTON', 'SELECT');
     if(!identifier){
         alert('please enter a text');
+        return;
     }else{
-        global.submitionDiv.lastElementChild.classList.add('loader');
+        addLoader();
         try{
             const pokemonObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${identifier}`);
             updatePOkemonToDom(pokemonObj.data);
-            const backImg = pokemonObj.data['sprites']['back_default'];
             function changeToBackSprite(e) {
-                    e.target.src = backImg;
+                changesprite(e.target, pokemonObj.data['sprites']['back_default']);
             }
-            function defaultImg(e) {
-                e.target.src = pokemonObj.data['sprites']['front_default']
+            function defaultImg(e){
+                changesprite(e.target, pokemonObj.data['sprites']['front_default']);
             }
             global.pokemonImg.addEventListener('mouseenter', changeToBackSprite);
             global.pokemonImg.addEventListener('mouseleave', defaultImg);
-            global.submitionDiv.lastElementChild.classList.remove('loader');
+            removeLoader();
         }catch (error){
-            global.submitionDiv.lastElementChild.classList.remove('loader');
+            removeLoader();
             alert('no such pokemon. maybe in the next generation')
             throw error;
         }
@@ -83,4 +79,24 @@ export function removeTypeList(e) {
         global.type2.firstElementChild.remove();
        }
    }
+}
+//identifies the correct targer
+function identify(checker) {
+    if(checker.tagName === arguments[1]){
+        return checker.previousElementSibling.value;
+    }else if(checker.tagName === arguments[2]){
+        return checker.value;
+    }
+}
+// add loader function
+function addLoader() {
+    global.submitionDiv.lastElementChild.classList.add('loader');
+}
+// remove loader function
+function removeLoader() {
+    global.submitionDiv.lastElementChild.classList.remove('loader');
+}
+// change to back sprite function
+function changesprite(target, img) {
+   target.src = img;
 }
