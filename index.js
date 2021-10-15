@@ -54,3 +54,30 @@ function updatePOkemonToDom(response) {
          type2.innerText = '';
      }
 }
+
+async function getPokemonByType(e) {
+   const type = e.target.innerText;
+   submitionDiv.lastElementChild.classList.add('loader');
+        try{
+            const pokemonObj = await axios.get(`https://pokeapi.co/api/v2/type/${type}`);
+            showListbyType(pokemonObj.data, e.target);
+            submitionDiv.lastElementChild.classList.remove('loader');
+        }catch (error){
+            submitionDiv.lastElementChild.classList.remove('loader');
+            throw error;
+        }
+}
+
+function showListbyType(response,target) {
+    const typeList = document.createElement('select');
+    const pokemonArray = response['pokemon'];
+    pokemonArray.forEach(pokemon => {
+        const option = document.createElement('option');
+        option.innerText = pokemon['pokemon']['name'];
+        typeList.appendChild(option);
+    });
+    target.appendChild(typeList);
+}
+
+type1.addEventListener('click', getPokemonByType);
+type2.addEventListener('click', getPokemonByType);
