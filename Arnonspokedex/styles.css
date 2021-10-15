@@ -1,10 +1,11 @@
-@font-face {
-  font-family: "CustomFont";
-  src: url("CustomFont.eot");
-  src: url("CustomFont.woff") format("woff"),
-  url("CustomFont.otf") format("opentype"),
-  url("CustomFont.svg#filename") format("svg");
-  }
+@import url('//db.onlinewebfonts.com/c/f4d1593471d222ddebd973210265762a?family=Pokemon');
+
+h1, p, #pokemon-detail-container{
+  font-family: 'pokemon';
+}
+h1{
+  color:gold;
+}
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
