@@ -1,19 +1,8 @@
 import style from "./styles.css";
-const nameSearchButton = document.getElementById('search-name');
-const idSearchButton = document.getElementById('search-id')
-const searchByNameInput = document.querySelector('.search-by-name');
-const searchByIdInput = document.querySelector('.search-by-id');
-const pokemonNameDiv = document.getElementById('pokemon-name');
-const pokemonHeightDiv = document.getElementById('pokemon-height');
-const pokemonWeightDiv = document.getElementById('pokemon-weight');
-const pokemonImg = document.getElementById('pokemon-img');
-const submitionDiv = document.querySelector('.form-group');
-const pokemonType = document.getElementById('pokemon-type');
-const type1 = document.getElementById('type1');
-const type2 = document.getElementById('type2');
+import * as global from './global-variables-for-inedx';
 //event listener for search buttons
-nameSearchButton.addEventListener('click', searchPokemon);
-idSearchButton.addEventListener('click', searchPokemon);
+global.nameSearchButton.addEventListener('click', searchPokemon);
+global.idSearchButton.addEventListener('click', searchPokemon);
 // search pokemon function
 async function searchPokemon(e) {
     let identifier;
@@ -25,7 +14,7 @@ async function searchPokemon(e) {
     if(!identifier){
         alert('please enter a text');
     }else{
-        submitionDiv.lastElementChild.classList.add('loader');
+        global.submitionDiv.lastElementChild.classList.add('loader');
         try{
             const pokemonObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${identifier}`);
             updatePOkemonToDom(pokemonObj.data);
@@ -36,11 +25,11 @@ async function searchPokemon(e) {
             function defaultImg(e) {
                 e.target.src = pokemonObj.data['sprites']['front_default']
             }
-            pokemonImg.addEventListener('mouseenter', changeToBackSprite);
-            pokemonImg.addEventListener('mouseleave', defaultImg);
-            submitionDiv.lastElementChild.classList.remove('loader');
+            global.pokemonImg.addEventListener('mouseenter', changeToBackSprite);
+            global.pokemonImg.addEventListener('mouseleave', defaultImg);
+            global.submitionDiv.lastElementChild.classList.remove('loader');
         }catch (error){
-            submitionDiv.lastElementChild.classList.remove('loader');
+            global.submitionDiv.lastElementChild.classList.remove('loader');
             alert('no such pokemon. maybe in the next generation')
             throw error;
         }
@@ -48,16 +37,16 @@ async function searchPokemon(e) {
 }
 
 function updatePOkemonToDom(response) {
-     pokemonNameDiv.innerText = `name: ${response['name']}`;
-     pokemonHeightDiv.innerText = `height: ${response['height']}`;
-     pokemonWeightDiv.innerText = `weight: ${response['weight']}`;
-     pokemonImg.src = `${response['sprites']['front_default']}`;
-     pokemonType.innerText = 'type: '
-     type1.innerText = response['types'][0]['type']['name'];
+     global.pokemonNameDiv.innerText = `name: ${response['name']}`;
+     global.pokemonHeightDiv.innerText = `height: ${response['height']}`;
+     global.pokemonWeightDiv.innerText = `weight: ${response['weight']}`;
+     global.pokemonImg.src = `${response['sprites']['front_default']}`;
+     global.pokemonType.innerText = 'type: '
+     global.type1.innerText = response['types'][0]['type']['name'];
      try{
-        type2.innerText = response['types'][1]['type']['name'];
+        global.type2.innerText = response['types'][1]['type']['name'];
      } catch (error){
-         type2.innerText = '';
+        global.type2.innerText = '';
      }
 }
 
@@ -66,18 +55,18 @@ async function getPokemonByType(e) {
       return;
     }
    const type = e.target.innerText;
-   submitionDiv.lastElementChild.classList.add('loader');
+   global.submitionDiv.lastElementChild.classList.add('loader');
         try{
             const pokemonObj = await axios.get(`https://pokeapi.co/api/v2/type/${type}`);
             showListbyType(pokemonObj.data, e.target);
-            submitionDiv.lastElementChild.classList.remove('loader');
+            global.submitionDiv.lastElementChild.classList.remove('loader');
         }catch (error){
-            submitionDiv.lastElementChild.classList.remove('loader');
+            global.submitionDiv.lastElementChild.classList.remove('loader');
             throw error;
         }
 }
 
-function showListbyType(response,target) {
+function showListbyType(response, target) {
     const typeList = document.createElement('select');
     const pokemonArray = response['pokemon'];
     pokemonArray.forEach(pokemon => {
@@ -92,15 +81,15 @@ function showListbyType(response,target) {
 
 function removeTypeList(e) {
    if(e.target.tagName !== 'SELECT'){
-       if(type1.firstElementChild){
-        type1.firstElementChild.remove();
+       if( global.type1.firstElementChild){
+        global.type1.firstElementChild.remove();
        }
-       if(type2.firstElementChild){
-           type2.firstElementChild.remove();
+       if( global.type2.firstElementChild){
+        global.type2.firstElementChild.remove();
        }
    }
 }
 
-type1.addEventListener('click', getPokemonByType);
-type2.addEventListener('click', getPokemonByType);
+global.type1.addEventListener('click', getPokemonByType);
+global.type2.addEventListener('click', getPokemonByType);
 document.body.addEventListener('click', removeTypeList);

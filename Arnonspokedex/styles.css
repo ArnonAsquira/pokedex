@@ -15,3 +15,8 @@
  .cursor-pointer{
    cursor: pointer;
  }
+
+ body {
+   background-image: url('./pokemon\ background.jpg');
+   background-size: 70%;
+ }
