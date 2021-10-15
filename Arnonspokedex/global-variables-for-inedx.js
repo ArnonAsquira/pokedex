@@ -10,3 +10,4 @@ export const submitionDiv = document.querySelector('.form-group');
 export const pokemonType = document.getElementById('pokemon-type');
 export const type1 = document.getElementById('type1');
 export const type2 = document.getElementById('type2');
+export const randomButton = document.getElementById('random-pokemon');

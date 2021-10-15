@@ -1,44 +1,26 @@
+import { concatSeries } from 'async';
 import * as global from './global-variables-for-inedx';
 //event listeners functions
-
 export async function searchPokemon(e) {
     let identifier = identify(e.target, 'BUTTON', 'SELECT');
     if(!identifier){
         alert('please enter a text');
         return;
-    }else{
-        addLoader();
-        try{
-            const pokemonObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${identifier}`);
-            updatePOkemonToDom(pokemonObj.data);
-            function changeToBackSprite(e) {
-                changesprite(e.target, pokemonObj.data['sprites']['back_default']);
-            }
-            function defaultImg(e){
-                changesprite(e.target, pokemonObj.data['sprites']['front_default']);
-            }
-            global.pokemonImg.addEventListener('mouseenter', changeToBackSprite);
-            global.pokemonImg.addEventListener('mouseleave', defaultImg);
-            removeLoader();
-        }catch (error){
-            removeLoader();
-            alert('no such pokemon. maybe in the next generation')
-            throw error;
-        }
     }
+    innerFetch(identifier, e.target);
 }
 //
 function updatePOkemonToDom(response) {
-     global.pokemonNameDiv.innerText = `name: ${response['name']}`;
-     global.pokemonHeightDiv.innerText = `height: ${response['height']}`;
-     global.pokemonWeightDiv.innerText = `weight: ${response['weight']}`;
-     global.pokemonImg.src = `${response['sprites']['front_default']}`;
-     global.pokemonType.innerText = 'type: '
-     global.type1.innerText = response['types'][0]['type']['name'];
+    innerDomUpdate(global.pokemonNameDiv, 'innerText',`name: ${response['name']}`);
+    innerDomUpdate(global.pokemonHeightDiv, 'innerText',`height: ${response['height']}` );
+    innerDomUpdate(global.pokemonWeightDiv, 'innerText', `weight: ${response['weight']}`);
+    innerDomUpdate(global.type1, 'innerText','type: ');
+    innerDomUpdate(global.pokemonImg, 'src', `${response['sprites']['front_default']}`);
+    innerDomUpdate(global.type1, 'innerText', response['types'][0]['type']['name']);
      try{
-        global.type2.innerText = response['types'][1]['type']['name'];
+        innerDomUpdate(global.type2, 'innerText', response['types'][1]['type']['name'])
      } catch (error){
-        global.type2.innerText = '';
+         innerDomUpdate(global.type2, 'innerText', '');
      }
 }
 //
@@ -99,4 +81,55 @@ function removeLoader() {
 // change to back sprite function
 function changesprite(target, img) {
    target.src = img;
+}
+// inner dom update function
+function innerDomUpdate(elem, attr,update) {
+  elem[attr] = update;
+}
+
+// random pokemon generator
+export function randomize(e) {
+     
+   if(e.target.tagName !== 'BUTTON'){
+       return;
+   }
+   const randomNum = createRandom();
+   console.log(randomNum);
+   innerFetch(randomNum, e.target);
+}
+
+// create random number
+function createRandom() {
+    const randomDigit1 = Math.floor((Math.random() * 10) + 0.5);
+    const randomDigit2 = Math.floor((Math.random() * 10) + 0.5);
+    const randomDigit3 = Math.floor((Math.random() * 10) + 0.5);
+    const randomNum = randomDigit1 * randomDigit2 * randomDigit3;
+    if(randomNum > 898) {
+        return randomNum - 102;
+    } if(randomNum < 1) {
+       return randomNum + 34;
+    }
+    return randomNum;
+}
+// inner fetch request function
+async function innerFetch(req, target) {
+    addLoader();
+    try{
+        const pokemonObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${req}`);
+        console.log(pokemonObj.data);
+        updatePOkemonToDom(pokemonObj.data);
+        function changeToBackSprite(e) {
+            changesprite(e.target, pokemonObj.data['sprites']['back_default']);
+        }
+        function defaultImg(e){
+            changesprite(e.target, pokemonObj.data['sprites']['front_default']);
+        }
+        global.pokemonImg.addEventListener('mouseenter', changeToBackSprite);
+        global.pokemonImg.addEventListener('mouseleave', defaultImg);
+        removeLoader();
+    }catch (error){
+        removeLoader();
+        alert('no such pokemon. maybe in the next generation')
+        throw error;
+    }
 }
