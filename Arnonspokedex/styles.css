@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "CustomFont";
+  src: url("CustomFont.eot");
+  src: url("CustomFont.woff") format("woff"),
+  url("CustomFont.otf") format("opentype"),
+  url("CustomFont.svg#filename") format("svg");
+  }
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */

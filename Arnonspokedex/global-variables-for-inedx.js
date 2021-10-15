@@ -11,3 +11,20 @@ export const pokemonType = document.getElementById('pokemon-type');
 export const type1 = document.getElementById('type1');
 export const type2 = document.getElementById('type2');
 export const randomButton = document.getElementById('random-pokemon');
+
+export const TypeColorMapper = {
+    water: 'blue',
+    fire: 'red',
+    grass: 'green',
+    ice: 'powderblue',
+    poison: 'darkslateblue',
+    psychic: 'gold',
+    fairy: 'pink',
+    normal: 'grey',
+    electric: 'yellow',
+    ground: 'darkkhaki',
+    rock: 'brown',
+    dark: 'black',
+    flying: 'lightcyan',
+    bug: 'mediumseagreen'
+}
