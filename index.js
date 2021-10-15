@@ -15,7 +15,13 @@ nameSearchButton.addEventListener('click', searchPokemon);
 idSearchButton.addEventListener('click', searchPokemon);
 // search pokemon function
 async function searchPokemon(e) {
-    const identifier = e.target.previousElementSibling.value;
+    let identifier;
+    if(e.target.tagName === 'BUTTON'){
+        identifier = e.target.previousElementSibling.value;
+    }else if(e.target.tagName === 'SELECT'){
+            identifier =  e.target.value;
+       }
+    console.log(identifier);
     if(!identifier){
         alert('please enter a text');
     }else{
@@ -56,6 +62,9 @@ function updatePOkemonToDom(response) {
 }
 
 async function getPokemonByType(e) {
+    if(e.target.tagName !== 'P'){
+      return;
+    }
    const type = e.target.innerText;
    submitionDiv.lastElementChild.classList.add('loader');
         try{
@@ -77,7 +86,21 @@ function showListbyType(response,target) {
         typeList.appendChild(option);
     });
     target.appendChild(typeList);
+    typeList.addEventListener('change', searchPokemon);
+}
+
+
+function removeTypeList(e) {
+   if(e.target.tagName !== 'SELECT'){
+       if(type1.firstElementChild){
+        type1.firstElementChild.remove();
+       }
+       if(type2.firstElementChild){
+           type2.firstElementChild.remove();
+       }
+   }
 }
 
 type1.addEventListener('click', getPokemonByType);
 type2.addEventListener('click', getPokemonByType);
+document.body.addEventListener('click', removeTypeList);
