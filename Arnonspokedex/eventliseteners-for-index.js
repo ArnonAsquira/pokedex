@@ -27,6 +27,7 @@ function updatePOkemonToDom(response) {
      }
      global.type1.style.color = '';
      global.type1.style.color = global.TypeColorMapper[global.type1.innerText];
+     global.pokedexCardDiv.hidden = false;
 }
 //
 export async function getPokemonByType(e) {
@@ -121,7 +122,6 @@ async function innerFetch(req) {
     addLoader();
     try{
         const pokemonObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${req}`);
-        global.pokedexCardDiv.hidden = false;
         console.log(pokemonObj.data);
         updatePOkemonToDom(pokemonObj.data);
         function changeToBackSprite(e) {
@@ -157,20 +157,22 @@ export async function getAllPokemonsOfType(e) {
        const newPokemonObj = axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonData.pokemon.name}`)
        .then(data => {
             const imgUrl = data.data.sprites['front_default'];
-            createPokeImgCard(imgUrl);
+            const pokeName = data.data.name;
+            createPokeImgCard(imgUrl, pokeName);
        })
 
     })
 }
 
 //create pokemo image card
-function createPokeImgCard(data) {
-    const pokeImg = createElement('img', [], [], {src:`${data}`});
-    const card = createElement('div', [pokeImg], ['pokeImg-card', 'col-sm']);
+function createPokeImgCard(url, name) {
+    const pokeImg = createElement('img', [], [], {src:`${url}`});
+    const card = createElement('div', [pokeImg], ['pokeImg-card', 'col-sm'], {['data-name']: name});
+    card.addEventListener('click', searchByImg);
     document.querySelector('.pokeImg-container').appendChild(card);
 }
 
-
+// generic create element function
 function createElement(tagName, children = [], classes = [], attributes = {}) {
     let newEl = document.createElement(tagName);
     for(let child of children){
@@ -186,4 +188,22 @@ function createElement(tagName, children = [], classes = [], attributes = {}) {
         newEl.setAttribute(attr, attributes[attr]);
     }
     return newEl
+}
+
+// search pokemon by image card function
+
+async function searchByImg(e) {
+    let target;
+    if(e.target.tagName === 'IMG'){
+        target = e.target.parentElement
+    }else{
+        target = e.target;
+    }
+    const pokemonName = target.getAttribute(['data-name']);
+    try{
+      const pokeObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+      updatePOkemonToDom(pokeObj.data);
+    }catch(error){
+        throw(error + 'nooooooooo');
+    }
 }
