@@ -25,11 +25,11 @@ export const TypeColorMapper = {
     normal: 'grey',
     electric: 'yellow',
     ground: 'darkkhaki',
-    rock: 'brown',
+    rock: 'saddlebrown',
     dark: 'black',
     flying: 'lightcyan',
     bug: 'mediumseagreen',
-    fighting: 'slamon',
+    fighting: 'salmon',
     dragon: 'RebeccaPurple',
     ghost: 'SlateBlue'
 }
