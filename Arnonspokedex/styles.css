@@ -27,4 +27,26 @@ h1{
  body {
    background-image: url('./pokemon\ background.jpg');
    background-size: 70%;
+   letter-spacing: 3px;
+ }
+
+ #pokedex-card {
+   border: gold 1px solid;
+   width: 800px;
+   background-color: rgba(30, 30, 30, 0.3);
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 70px;
+   border-radius: 8px;
+ }
+ 
+ .pokeImg-card {
+   border: solid 1px red;
+   margin: 3px;
+   border-radius: 8px;
+   background-size: 100%;
+ }
+
+ .pokeImg-card:hover{
+   background-color: rgba(30, 30, 30, 0.3);
  }

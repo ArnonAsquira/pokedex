@@ -1,13 +1,14 @@
 import { concatSeries } from 'async';
 import * as global from './global-variables-for-inedx';
 //event listeners functions
+//search pokemon
 export async function searchPokemon(e) {
     let identifier = identify(e.target, 'BUTTON', 'SELECT');
     if(!identifier){
         alert('please enter a text');
         return;
     }
-    innerFetch(identifier, e.target);
+    innerFetch(identifier);
 }
 //
 function updatePOkemonToDom(response) {
@@ -99,7 +100,7 @@ export function randomize(e) {
    }
    const randomNum = createRandom();
    console.log(randomNum);
-   innerFetch(randomNum, e.target);
+   innerFetch(randomNum);
 }
 
 // create random number
@@ -116,10 +117,11 @@ function createRandom() {
     return randomNum;
 }
 // inner fetch request function
-async function innerFetch(req, target) {
+async function innerFetch(req) {
     addLoader();
     try{
         const pokemonObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${req}`);
+        global.pokedexCardDiv.hidden = false;
         console.log(pokemonObj.data);
         updatePOkemonToDom(pokemonObj.data);
         function changeToBackSprite(e) {
@@ -136,4 +138,52 @@ async function innerFetch(req, target) {
         alert('no such pokemon. maybe in the next generation')
         throw error;
     }
+}
+
+// getPokemon by type from dropdown menu
+export async function getAllPokemonsOfType(e) {
+    if(e.target.tagName !== 'LI'){
+        return;
+    }
+    const req = e.target.innerText;
+    const pokemonObj =  await axios.get(`https://pokeapi.co/api/v2/type/${req}`);
+    const pokemons = pokemonObj.data.pokemon;
+    // remove prior image cards
+    if(document.querySelector('.pokeImg-container').firstElementChild){
+        Array.from(document.querySelector('.pokeImg-container').children).forEach(child => {child.remove()})
+    }
+    //
+    pokemons.forEach(pokemonData => {
+       const newPokemonObj = axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonData.pokemon.name}`)
+       .then(data => {
+            const imgUrl = data.data.sprites['front_default'];
+            createPokeImgCard(imgUrl);
+       })
+
+    })
+}
+
+//create pokemo image card
+function createPokeImgCard(data) {
+    const pokeImg = createElement('img', [], [], {src:`${data}`});
+    const card = createElement('div', [pokeImg], ['pokeImg-card', 'col-sm']);
+    document.querySelector('.pokeImg-container').appendChild(card);
+}
+
+
+function createElement(tagName, children = [], classes = [], attributes = {}) {
+    let newEl = document.createElement(tagName);
+    for(let child of children){
+        if(typeof(child) === "string"){
+            child = document.createTextNode(child);
+        }
+         newEl.append(child);
+    }
+    for(let cls of classes){
+        newEl.classList.add(cls);
+    }
+    for(let attr in attributes){
+        newEl.setAttribute(attr, attributes[attr]);
+    }
+    return newEl
 }

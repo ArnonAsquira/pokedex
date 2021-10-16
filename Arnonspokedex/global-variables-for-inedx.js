@@ -11,6 +11,8 @@ export const pokemonType = document.getElementById('pokemon-type');
 export const type1 = document.getElementById('type1');
 export const type2 = document.getElementById('type2');
 export const randomButton = document.getElementById('random-pokemon');
+export const pokedexCardDiv = document.getElementById('pokedex-card');
+export const dropdownMenuTypes = document.querySelector('.dropdown-menu');
 
 export const TypeColorMapper = {
     water: 'blue',
@@ -26,5 +28,8 @@ export const TypeColorMapper = {
     rock: 'brown',
     dark: 'black',
     flying: 'lightcyan',
-    bug: 'mediumseagreen'
+    bug: 'mediumseagreen',
+    fighting: 'slamon',
+    dragon: 'RebeccaPurple',
+    ghost: 'SlateBlue'
 }

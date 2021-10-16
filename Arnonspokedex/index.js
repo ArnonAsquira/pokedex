@@ -8,3 +8,4 @@ global.type1.addEventListener('click', listener.getPokemonByType);
 global.type2.addEventListener('click', listener.getPokemonByType);
 document.body.addEventListener('click', listener.removeTypeList);
 global.randomButton.addEventListener('click', listener.randomize);
+global.dropdownMenuTypes.addEventListener('click', listener.getAllPokemonsOfType);
