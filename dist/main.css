@@ -1,0 +1,55 @@
+@import url(//db.onlinewebfonts.com/c/f4d1593471d222ddebd973210265762a?family=Pokemon);
+h1, p, #pokemon-detail-container{
+  font-family: 'pokemon';
+}
+h1{
+  color:gold;
+}
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+ .cursor-pointer{
+   cursor: pointer;
+ }
+
+ body {
+   background-image: url(0ee4d9d44b79fe4a4e48.jpg);
+   background-size: 70%;
+   letter-spacing: 3px;
+ }
+
+ #pokedex-card {
+   border: gold 1px solid;
+   width: 800px;
+   background-color: rgba(30, 30, 30, 0.3);
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 70px;
+   border-radius: 8px;
+ }
+ 
+ .pokeImg-card {
+   border: solid 1px red;
+   margin: 3px;
+   border-radius: 8px;
+   background-size: 100%;
+ }
+
+ .pokeImg-card:hover{
+   background-color: rgba(30, 30, 30, 0.3);
+ }
+
+ li {
+   background-color: lightgray;
+ }
