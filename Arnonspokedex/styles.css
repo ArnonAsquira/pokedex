@@ -50,3 +50,7 @@ h1{
  .pokeImg-card:hover{
    background-color: rgba(30, 30, 30, 0.3);
  }
+
+ li {
+   background-color: lightgray;
+ }
