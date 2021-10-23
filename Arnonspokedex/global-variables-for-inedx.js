@@ -15,6 +15,7 @@ export const pokedexCardDiv = document.getElementById('pokedex-card');
 export const dropdownMenuTypes = document.querySelector('.dropdown-menu'); 
 export const cathcPokemonBtn = document.getElementById('catch-pokemon');
 export const realeasPokemonBtn = document.getElementById('release-pokemon');
+export const showCaughtPokemon = document.getElementById('caught-pokemon-show');
 
 
 export const TypeColorMapper = {

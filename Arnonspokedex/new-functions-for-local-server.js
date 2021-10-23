@@ -87,13 +87,21 @@ function releasePokemon(e) {
     }
 }
 
-function showCaughtPokemons(e) {
-
+export async function showCaughtPokemons(e) {
+    try{
+        let caughtPokemons = await axios.get(`${localServerUrl}/pokemon/`, config);
+        caughtPokemons = caughtPokemons.data
+        caughtPokemons.forEach(pokeOBJ => {
+            newCreatePokeImgCard(JSON.parse(pokeOBJ)['front_pic'], JSON.parse(pokeOBJ)['name'])
+        });
+    } catch(error) {
+        console.log(error);
+    }
 }
 
 function newCreatePokeImgCard(url, name) {
-    const pokeImg = createElement('img', [], [], {src:`${url}`});
-    const card = createElement('div', [pokeImg], ['pokeImg-card', 'col-sm'], {['data-name']: name});
+    const pokeImg = updateToDom.createElement('img', [], [], {src:`${url}`});
+    const card = updateToDom.createElement('div', [pokeImg], ['pokeImg-card', 'col-sm'], {['data-name']: name});
     // card.addEventListener('click', searchByImg);
     document.querySelector('.caught-pokemons-div').appendChild(card);
 }

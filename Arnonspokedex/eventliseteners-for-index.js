@@ -1,5 +1,6 @@
 import * as global from './global-variables-for-inedx';
 import * as newListenesrs from './new-functions-for-local-server';
+import * as updatingToDom from './updatingToDom';
 
 //event listeners functions
 //search pokemon
@@ -109,29 +110,13 @@ export async function getAllPokemonsOfType(e) {
 
 //create pokemo image card
 function createPokeImgCard(url, name) {
-    const pokeImg = createElement('img', [], [], {src:`${url}`});
-    const card = createElement('div', [pokeImg], ['pokeImg-card', 'col-sm'], {['data-name']: name});
+    const pokeImg = updatingToDom.createElement('img', [], [], {src:`${url}`});
+    const card = updatingToDom.createElement('div', [pokeImg], ['pokeImg-card', 'col-sm'], {['data-name']: name});
     card.addEventListener('click', searchByImg);
     document.querySelector('.pokeImg-container').appendChild(card);
 }
 
-// generic create element function
-function createElement(tagName, children = [], classes = [], attributes = {}) {
-    let newEl = document.createElement(tagName);
-    for(let child of children){
-        if(typeof(child) === "string"){
-            child = document.createTextNode(child);
-        }
-         newEl.append(child);
-    }
-    for(let cls of classes){
-        newEl.classList.add(cls);
-    }
-    for(let attr in attributes){
-        newEl.setAttribute(attr, attributes[attr]);
-    }
-    return newEl
-}
+
 
 // search pokemon by image card function
 async function searchByImg(e) {
