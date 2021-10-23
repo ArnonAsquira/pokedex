@@ -1,6 +1,7 @@
 import * as global from './global-variables-for-inedx';
 import * as newListenesrs from './new-functions-for-local-server';
 import * as updatingToDom from './updatingToDom';
+import Swal from 'sweetalert2';
 
 //event listeners functions
 //search pokemon
@@ -66,7 +67,6 @@ export function randomize(e) {
        return;
    }
    const randomNum = createRandom();
-   console.log(randomNum);
    newListenesrs.innerFetch(randomNum);
 }
 

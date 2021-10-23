@@ -1,5 +1,6 @@
 import * as global from './global-variables-for-inedx';
 import  * as updateToDom from './updatingToDom';
+import Swal from 'sweetalert2';
 
 let pokemonID;
 
@@ -39,17 +40,13 @@ export async function innerFetch(req) {
                 },
                 body: JSON.stringify(req) // body data type must match "Content-Type" header
               })
-              console.log(pokemonObj);
         }
         pokemonID = pokemonObj.data.id;
-        console.log(pokemonObj);
         updateToDom.updatePOkemonToDom(pokemonObj.data);
         function changeToBackSprite(e) {
-            console.log(pokemonObj.data['back_pic']);
             changesprite(e.target, pokemonObj.data['back_pic']);
         }
             function defaultImg(e){
-            console.log(pokemonObj.data['front_pic']);
             changesprite(e.target, pokemonObj.data['front_pic']);
         }
         global.pokemonImg.addEventListener('mouseenter', changeToBackSprite);
@@ -58,31 +55,43 @@ export async function innerFetch(req) {
         global.realeasPokemonBtn.addEventListener('click', releasePokemon);
         removeLoader();
     } catch (error) {
-        console.log(error);
+        Swal.fire({
+            titleText: 'pokemon not found',
+            icon: 'error'
+        })
         removeLoader();
     }
 }
 
-function catchPokemon(e) {
+async function catchPokemon(e) {
     addLoader();
     try {
-        axios.put(`${localServerUrl}/pokemon/catch/${pokemonID}`, {}, config);
-        alert('pokemon caught');
+        await axios.put(`${localServerUrl}/pokemon/catch/${pokemonID}`, {}, config);
+        Swal.fire({titleText: 'pokemon caught'});
         removeLoader();
     }catch(error) {
-       console.log('pokemon could not be cathced');
+        Swal.fire({
+            titleText: 'pokemon could not be caught',
+            icon: 'error'
+    })
        removeLoader();
     }
 }
 
-function releasePokemon(e) {
+async function releasePokemon(e) {
     addLoader();
     try {
-        axios.delete(`${localServerUrl}/pokemon/release/${pokemonID}`, config);
-        alert('released');
+        await axios.delete(`${localServerUrl}/pokemon/release/${pokemonID}`, config);
+        Swal.fire({
+            titleText: 'pokemon released'
+        });
         removeLoader();
     }catch(error) {
-       console.log('pokemon could not be released');
+        Swal.fire({
+            titleText: 'pokemon was not caught',
+            icon: 'error'
+        });
+
        removeLoader();
     }
 }
