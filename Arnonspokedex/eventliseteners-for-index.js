@@ -1,5 +1,6 @@
-import { concatSeries } from 'async';
 import * as global from './global-variables-for-inedx';
+import * as newListenesrs from './new-functions-for-local-server';
+
 //event listeners functions
 //search pokemon
 export async function searchPokemon(e) {
@@ -8,26 +9,7 @@ export async function searchPokemon(e) {
         alert('please enter a text');
         return;
     }
-    innerFetch(identifier);
-}
-//
-function updatePOkemonToDom(response) {
-    innerDomUpdate(global.pokemonNameDiv, 'innerText',`name: ${response['name']}`);
-    innerDomUpdate(global.pokemonHeightDiv, 'innerText',`height: ${response['height']}` );
-    innerDomUpdate(global.pokemonWeightDiv, 'innerText', `weight: ${response['weight']}`);
-    innerDomUpdate(global.type1, 'innerText','type: ');
-    innerDomUpdate(global.pokemonImg, 'src', `${response['sprites']['front_default']}`);
-    innerDomUpdate(global.type1, 'innerText', response['types'][0]['type']['name']);
-     try{
-        innerDomUpdate(global.type2, 'innerText', response['types'][1]['type']['name']);
-        global.type2.style.color = global.TypeColorMapper[global.type2.innerText];
-     } catch (error){
-        innerDomUpdate(global.type2, 'innerText', '');
-        global.type2.style.color = '';
-     }
-     global.type1.style.color = '';
-     global.type1.style.color = global.TypeColorMapper[global.type1.innerText];
-     global.pokedexCardDiv.hidden = false;
+    newListenesrs.innerFetch(identifier);
 }
 //
 export async function getPokemonByType(e) {
@@ -76,23 +58,6 @@ function identify(checker) {
         return checker.value;
     }
 }
-// add loader function
-function addLoader() {
-    global.submitionDiv.lastElementChild.classList.add('loader');
-}
-// remove loader function
-function removeLoader() {
-    global.submitionDiv.lastElementChild.classList.remove('loader');
-}
-// change to back sprite function
-function changesprite(target, img) {
-   target.src = img;
-}
-// inner dom update function
-function innerDomUpdate(elem, attr,update) {
-  elem[attr] = update;
-}
-
 // random pokemon generator
 export function randomize(e) {
      
@@ -101,7 +66,7 @@ export function randomize(e) {
    }
    const randomNum = createRandom();
    console.log(randomNum);
-   innerFetch(randomNum);
+   newListenesrs.innerFetch(randomNum);
 }
 
 // create random number
@@ -118,27 +83,6 @@ function createRandom() {
     return randomNum;
 }
 // inner fetch request function
-async function innerFetch(req) {
-    addLoader();
-    try{
-        const pokemonObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${req}`);
-        console.log(pokemonObj.data);
-        updatePOkemonToDom(pokemonObj.data);
-        function changeToBackSprite(e) {
-            changesprite(e.target, pokemonObj.data['sprites']['back_default']);
-        }
-        function defaultImg(e){
-            changesprite(e.target, pokemonObj.data['sprites']['front_default']);
-        }
-        global.pokemonImg.addEventListener('mouseenter', changeToBackSprite);
-        global.pokemonImg.addEventListener('mouseleave', defaultImg);
-        removeLoader();
-    }catch (error){
-        removeLoader();
-        alert('no such pokemon. maybe in the next generation')
-        throw error;
-    }
-}
 
 // getPokemon by type from dropdown menu
 export async function getAllPokemonsOfType(e) {
@@ -160,7 +104,6 @@ export async function getAllPokemonsOfType(e) {
             const pokeName = data.data.name;
             createPokeImgCard(imgUrl, pokeName);
        })
-
     })
 }
 
@@ -191,7 +134,6 @@ function createElement(tagName, children = [], classes = [], attributes = {}) {
 }
 
 // search pokemon by image card function
-
 async function searchByImg(e) {
     let target;
     if(e.target.tagName === 'IMG'){
@@ -207,3 +149,4 @@ async function searchByImg(e) {
         throw(error + 'nooooooooo');
     }
 }
+

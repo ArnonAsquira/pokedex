@@ -53,3 +53,10 @@ h1{
  li {
    background-color: lightgray;
  }
+
+#catch-pokemon {
+  background-color: goldenrod;
+}
+#release-pokemon {
+  background-color: mediumvioletred;
+}

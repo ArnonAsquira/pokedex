@@ -13,6 +13,9 @@ export const type2 = document.getElementById('type2');
 export const randomButton = document.getElementById('random-pokemon');
 export const pokedexCardDiv = document.getElementById('pokedex-card');
 export const dropdownMenuTypes = document.querySelector('.dropdown-menu'); 
+export const cathcPokemonBtn = document.getElementById('catch-pokemon');
+export const realeasPokemonBtn = document.getElementById('release-pokemon');
+
 
 export const TypeColorMapper = {
     water: 'blue',
