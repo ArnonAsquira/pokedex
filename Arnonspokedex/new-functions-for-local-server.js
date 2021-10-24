@@ -23,8 +23,7 @@ function removeLoader() {
 function changesprite(target, img) {
    target.src = img;
 }
-
-
+// inner fetch function
 export async function innerFetch(req) {
     addLoader();
     try{
@@ -34,18 +33,8 @@ export async function innerFetch(req) {
         } else{
             pokemonObj = await axios.get(`${localServerUrl}/pokemon/get/${req}`, config);
         }
-        pokemonID = pokemonObj.data.id;
         updateToDom.updatePOkemonToDom(pokemonObj.data);
-        function changeToBackSprite(e) {
-            changesprite(e.target, pokemonObj.data['back_pic']);
-        }
-            function defaultImg(e){
-            changesprite(e.target, pokemonObj.data['front_pic']);
-        }
-        global.pokemonImg.addEventListener('mouseenter', changeToBackSprite);
-        global.pokemonImg.addEventListener('mouseleave', defaultImg);
-        global.cathcPokemonBtn.addEventListener('click', catchPokemon);
-        global.realeasPokemonBtn.addEventListener('click', releasePokemon);
+        addListeners(pokemonObj); 
         removeLoader();
     } catch (error) {
         Swal.fire({
@@ -55,7 +44,7 @@ export async function innerFetch(req) {
         removeLoader();
     }
 }
-
+// catch pokemon function
 async function catchPokemon(e) {
     addLoader();
     try {
@@ -70,7 +59,7 @@ async function catchPokemon(e) {
        removeLoader();
     }
 }
-
+// release pokmon function
 async function releasePokemon(e) {
     addLoader();
     try {
@@ -88,7 +77,7 @@ async function releasePokemon(e) {
        removeLoader();
     }
 }
-
+// show caught pokemons 
 export async function showCaughtPokemons(e) {
     try{
         let caughtPokemons = await axios.get(`${localServerUrl}/pokemon/`, config);
@@ -113,7 +102,7 @@ function newCreatePokeImgCard(url, name) {
 
 
 // search pokemon by image card function
-async function searchByImg(e) {
+export async function searchByImg(e) {
     let target;
     if(e.target.tagName === 'IMG'){
         target = e.target.parentElement
@@ -124,6 +113,7 @@ async function searchByImg(e) {
     try{
       const pokeObj = await axios.get(`${localServerUrl}/pokemon/get/${pokemonName}`, config);
       updateToDom.updatePOkemonToDom(pokeObj.data);
+      addListeners(pokeObj); 
     }catch(error){
         Swal.fire({
             titleText: 'request was denied',
@@ -131,4 +121,20 @@ async function searchByImg(e) {
         })
         throw(error + 'nooooooooo');
     }
+}
+
+// add event listeners for image and catch & release
+function addListeners(pokemon) {
+    updateToDom.updatePOkemonToDom(pokemon.data);
+    function changeToBackSprite(e) {
+        changesprite(e.target, pokemon.data['back_pic']);
+    }
+        function defaultImg(e){
+        changesprite(e.target, pokemon.data['front_pic']);
+    }
+    global.pokemonImg.addEventListener('mouseenter', changeToBackSprite);
+    global.pokemonImg.addEventListener('mouseleave', defaultImg);
+    global.cathcPokemonBtn.addEventListener('click', catchPokemon);
+    global.realeasPokemonBtn.addEventListener('click', releasePokemon);
+    pokemonID = pokemon.data.id;
 }

@@ -115,26 +115,8 @@ export async function getAllPokemonsOfType(e) {
 function createPokeImgCard(url, name) {
     const pokeImg = updatingToDom.createElement('img', [], [], {src:`${url}`});
     const card = updatingToDom.createElement('div', [pokeImg], ['pokeImg-card', 'col-sm'], {['data-name']: name});
-    card.addEventListener('click', searchByImg);
+    card.addEventListener('click', newListenesrs.searchByImg);
     document.querySelector('.pokeImg-container').appendChild(card);
 }
 
-
-
-// search pokemon by image card function
-async function searchByImg(e) {
-    let target;
-    if(e.target.tagName === 'IMG'){
-        target = e.target.parentElement
-    }else{
-        target = e.target;
-    }
-    const pokemonName = target.getAttribute(['data-name']);
-    try{
-      const pokeObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-      updatingToDom.updatePOkemonToDom(pokeObj.data);
-    }catch(error){
-        throw(error + 'nooooooooo');
-    }
-}
 
