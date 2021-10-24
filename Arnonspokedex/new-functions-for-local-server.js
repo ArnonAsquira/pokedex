@@ -32,7 +32,7 @@ export async function innerFetch(req) {
         if(Number(req)) {
             pokemonObj = await axios.get(`${localServerUrl}/pokemon/get/${req}`, config);
         } else{
-            pokemonObj = await axios.get(`${localServerUrl}/pokemon/get/${req}`, config)
+            pokemonObj = await axios.get(`${localServerUrl}/pokemon/get/${req}`, config);
         }
         pokemonID = pokemonObj.data.id;
         updateToDom.updatePOkemonToDom(pokemonObj.data);
@@ -122,7 +122,7 @@ async function searchByImg(e) {
     }
     const pokemonName = target.getAttribute(['data-name']);
     try{
-      const pokeObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+      const pokeObj = await axios.get(`${localServerUrl}/pokemon/get/${pokemonName}`, config);
       updateToDom.updatePOkemonToDom(pokeObj.data);
     }catch(error){
         Swal.fire({
