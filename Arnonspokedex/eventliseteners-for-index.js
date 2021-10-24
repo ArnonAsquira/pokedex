@@ -8,7 +8,10 @@ import Swal from 'sweetalert2';
 export async function searchPokemon(e) {
     let identifier = identify(e.target, 'BUTTON', 'SELECT');
     if(!identifier){
-        alert('please enter a text');
+        Swal.fire({
+            titleText: 'please enter text',
+            icon: 'warning'
+        });
         return;
     }
     newListenesrs.innerFetch(identifier);
@@ -129,7 +132,7 @@ async function searchByImg(e) {
     const pokemonName = target.getAttribute(['data-name']);
     try{
       const pokeObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-      updatePOkemonToDom(pokeObj.data);
+      updatingToDom.updatePOkemonToDom(pokeObj.data);
     }catch(error){
         throw(error + 'nooooooooo');
     }

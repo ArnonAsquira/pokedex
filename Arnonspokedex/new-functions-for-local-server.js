@@ -32,14 +32,7 @@ export async function innerFetch(req) {
         if(Number(req)) {
             pokemonObj = await axios.get(`${localServerUrl}/pokemon/get/${req}`, config);
         } else{
-            pokemonObj = await fetch(`${localServerUrl}/pokemon/query`,{
-                method: 'GET', // *GET, POST, PUT, DELETE, etc.
-                headers: {
-                  'Content-Type': 'application/json',
-                  'username': 'Arnon'
-                },
-                body: JSON.stringify(req) // body data type must match "Content-Type" header
-              })
+            pokemonObj = await axios.get(`${localServerUrl}/pokemon/get/${req}`, config)
         }
         pokemonID = pokemonObj.data.id;
         updateToDom.updatePOkemonToDom(pokemonObj.data);
@@ -100,6 +93,9 @@ export async function showCaughtPokemons(e) {
     try{
         let caughtPokemons = await axios.get(`${localServerUrl}/pokemon/`, config);
         caughtPokemons = caughtPokemons.data
+        Array.from(document.querySelector('.caught-pokemons-div').children).forEach(child =>{
+            child.remove();
+        });
         caughtPokemons.forEach(pokeOBJ => {
             newCreatePokeImgCard(JSON.parse(pokeOBJ)['front_pic'], JSON.parse(pokeOBJ)['name'])
         });
@@ -111,6 +107,28 @@ export async function showCaughtPokemons(e) {
 function newCreatePokeImgCard(url, name) {
     const pokeImg = updateToDom.createElement('img', [], [], {src:`${url}`});
     const card = updateToDom.createElement('div', [pokeImg], ['pokeImg-card', 'col-sm'], {['data-name']: name});
-    // card.addEventListener('click', searchByImg);
+    card.addEventListener('click', searchByImg);
     document.querySelector('.caught-pokemons-div').appendChild(card);
+}
+
+
+// search pokemon by image card function
+async function searchByImg(e) {
+    let target;
+    if(e.target.tagName === 'IMG'){
+        target = e.target.parentElement
+    }else{
+        target = e.target;
+    }
+    const pokemonName = target.getAttribute(['data-name']);
+    try{
+      const pokeObj = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+      updateToDom.updatePOkemonToDom(pokeObj.data);
+    }catch(error){
+        Swal.fire({
+            titleText: 'request was denied',
+            icon: 'warning'
+        })
+        throw(error + 'nooooooooo');
+    }
 }
