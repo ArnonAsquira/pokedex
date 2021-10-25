@@ -13,7 +13,7 @@
         <h1>Pokedex</h1>
       </div>
     <div name='search-container' class="d-flex justify-content-center form-group">
-
+           <!--search pokemon section-->
         <div class="mx-auto">
             <input type="text" placeholder="search pokemon by name" class="search-by-name">
             <button type="button" class="btn btn-success" id='search-name'>search</button>
@@ -56,37 +56,42 @@
         </div>
         <div></div>
     </div>
-
-    <div id="pokedex-card" hidden='true'>
-        <div id="pokemon-detail-container" class="d-flex justify-content-center">
-        <div id="pokemon-name" class="mx-auto text-danger h2 my-5px"></div>
-        <div id="pokemon-height" class="mx-auto text-success h2 my-5px"></div>
-        <div id="pokemon-weight" class="mx-auto text-secondary h2 my-5px"></div>
-        <div id="catch-or-pokemon" class="mx-auto text-secondary h2 my-5px">
-            <button type="button" class="btn btn-success" id='catch-pokemon' hidden="true">catch pokemon</button>
-            <button type="button" class="btn btn-success" id='release-pokemon' hidden="true">release pokemon</button>
+     <!--display pokemon section-->
+<div class="main-display-section">
+    
+        <div id="pokedex-card" hidden='true'>
+            <div id="pokemon-detail-container" class="d-flex justify-content-center">
+            <div id="pokemon-name" class="mx-auto text-danger h2 my-5px"></div>
+            <div id="pokemon-height" class="mx-auto text-success h2 my-5px"></div>
+            <div id="pokemon-weight" class="mx-auto text-secondary h2 my-5px"></div>
+            <div id="catch-or-pokemon" class="mx-auto text-secondary h2 my-5px">
+                <button type="button" class="btn btn-success" id='catch-pokemon' hidden="true">catch pokemon</button>
+                <button type="button" class="btn btn-success" id='release-pokemon' hidden="true">release pokemon</button>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <img src="" alt="" id="pokemon-img" class="mx-auto">
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="mx-auto text-info h2">
+            <p id="pokemon-type"></p>
+            <p id='type1' class="cursor-pointer"></p>
+            <p id="type2" class="cursor-pointer"></p>
+            </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center">
-        <img src="" alt="" id="pokemon-img" class="mx-auto">
-    </div>
-    <div class="d-flex justify-content-center">
-        <div class="mx-auto text-info h2">
-        <p id="pokemon-type"></p>
-        <p id='type1' class="cursor-pointer"></p>
-        <p id="type2" class="cursor-pointer"></p>
-        </div>
-    </div>
-</div>
 
-<div class="caught-pokemons-div" hidden="true">
-   <h1>caught pokemons</h1>
-</div>
+    <div class="caught-pokemons-div" hidden="true">
+        <h1>caught pokemons</h1>
+    </div>
 
+</div>
+  <!--display pokemon section end-->
 <div class="container">
     <div class="pokeImg-container row">
 
     </div>
+  
 </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
