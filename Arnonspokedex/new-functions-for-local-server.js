@@ -83,23 +83,24 @@ export async function showCaughtPokemons(e) {
         let caughtPokemons = await axios.get(`${localServerUrl}/pokemon/`, config);
         caughtPokemons = caughtPokemons.data
         Array.from(document.querySelector('.caught-pokemons-div').children).forEach(child =>{
+            if (child.tagName === "H1") return;
             child.remove();
         });
         caughtPokemons.forEach(pokeOBJ => {
             newCreatePokeImgCard(JSON.parse(pokeOBJ)['front_pic'], JSON.parse(pokeOBJ)['name'])
         });
+        document.querySelector('.caught-pokemons-div').hidden = false;
     } catch(error) {
         console.log(error);
     }
 }
-
+// create pokemon image card function
 function newCreatePokeImgCard(url, name) {
     const pokeImg = updateToDom.createElement('img', [], [], {src:`${url}`});
     const card = updateToDom.createElement('div', [pokeImg], ['pokeImg-card', 'col-sm'], {['data-name']: name});
     card.addEventListener('click', searchByImg);
     document.querySelector('.caught-pokemons-div').appendChild(card);
 }
-
 
 // search pokemon by image card function
 export async function searchByImg(e) {
