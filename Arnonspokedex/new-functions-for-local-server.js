@@ -10,7 +10,7 @@ let config = {
     }
   }
 
-const localServerUrl = 'http://localhost:3000'; 
+const localServerUrl = 'https://arnons-pokedex.herokuapp.com'; 
 // add loader function
 function addLoader() {
     global.submitionDiv.lastElementChild.classList.add('loader');
